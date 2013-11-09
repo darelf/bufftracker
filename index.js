@@ -1,3 +1,4 @@
+var numeral = require('numeral')
 var es = require('event-stream')
 var crdt = require('crdt')
 module.exports = BuffTracker
@@ -7,6 +8,18 @@ function BuffTracker(doc) {
   if (!doc) doc = new crdt.Doc()
   if (!(self instanceof BuffTracker)) return new BuffTracker(doc)
   self.doc = doc
+}
+
+BuffTracker.prototype.importAllBuffs = function(data) {
+  var self = this
+  for (var b in data) {
+    var buff = data[b]
+    buff.forEach(function(v) {
+      var newbuff = v
+      newbuff.source = b
+      self.addBuff(newbuff)
+    })
+  }
 }
 
 BuffTracker.prototype.createBuff = function(source, type, target, amount, stacks) {
@@ -46,4 +59,26 @@ BuffTracker.prototype.getBonus = function(target) {
     total += Math.max.apply(Math,cum[k])
   }
   return total
+}
+
+BuffTracker.prototype.getTargetList = function() {
+  var self = this
+  var targets = []
+  for (var r in self.doc.rows) {
+    var t = self.doc.get(r).get('target')
+    if (targets.indexOf(t) < 0) targets.push(t)
+  }
+  return targets
+}
+
+BuffTracker.prototype.showAllBonuses = function() {
+  var self = this
+  var arr = []
+  var targets = self.getTargetList()
+  targets.forEach(function(v) {
+    var b = self.getBonus(v)
+    if (b !== 0)
+      arr.push(numeral(self.getBonus(v)).format('+0') + ' ' + v)
+  })
+  return arr
 }
