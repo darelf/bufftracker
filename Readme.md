@@ -27,13 +27,21 @@ CRDT (and dominictarr) everyone gets updated.
 Oh, well, that part's not done yet, but it's simple enough to hook up the streams on the
 Doc instances and off you go. Just pipe() everything and go "Woooooo!!!" or something.
 
+Showing All Bonuses
+-------------------
+The most useful function for the end user will be the `showAllBonuses` function, which
+returns an array of all the targets formatted with their calculated bonuses in typical
+Pathfinder format. See the `examples` directory for... ummm.. examples.
+
+You will also find the `importAllBuffs()` function which takes an object containing
+keys of the different sources of buffs along with all the buffs they provide, then
+imports them all into the current workspace.
+
 ToDo
 ----
 
 First, would be useful to have a way to add all the bonuses for a single source at once,
 and store them so they can be turned on and off easily.
-
-Next, have nice easy api for listing all bonuses at once.
 
 Then, EVEN MORE COOL STUFF.
 
