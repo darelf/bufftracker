@@ -8,5 +8,9 @@
     "crdt": "3.5.x",
     "event-stream": "3.0.x",
     "numeral": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/darelf/bufftracker.git"
   }
 }
