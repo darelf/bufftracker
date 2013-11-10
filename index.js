@@ -10,7 +10,7 @@ function BuffTracker(doc) {
   self.doc = doc
 }
 
-BuffTracker.prototype.importAllBuffs = function(data) {
+BuffTracker.prototype.applyFromSources = function(data) {
   var self = this
   for (var b in data) {
     var buff = data[b]
@@ -35,7 +35,7 @@ BuffTracker.prototype.addBuff = function(buff) {
                source: buff.source, type: buff.type, amount: buff.amount, target: buff.target, stacks: buff.stacks})
 }
 
-BuffTracker.prototype.deleteBuff = function(source) {
+BuffTracker.prototype.deleteBuffsBySource = function(source) {
   var self = this
   self.doc.createSet('source', source).each(function(v) {
     self.doc.rm(v.get('id'))

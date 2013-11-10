@@ -1,0 +1,44 @@
+{
+	"Blinded": [
+		{"type":"", "target": "armor class", "amount": -2, "stacks": true}
+	],
+	"Dazzled": [
+	  {"type":"", "target": "attacks", "amount": -1, "stacks": true},
+	  {"type":"", "target": "perception (sight)", "amount": -1, "stacks": true}
+	],
+	"Deaf": [
+		{"type":"", "target": "initiative", "amount": -4, "stacks": true},
+		{"type":"", "target": "opposed perception", "amount": -4, "stacks": true}
+	],
+	"Entangled": [
+		{"type":"", "target": "attacks", "amount": -2, "stacks": true},
+		{"type":"", "target": "dexterity", "amount": -4, "stacks": true}
+	],
+	"Exhausted": [
+		{"type":"", "target": "strength", "amount": -6, "stacks": true},
+		{"type":"", "target": "dexterity", "amount": -6, "stacks": true}
+	],
+	"Fatigued": [
+		{"type":"", "target": "strength", "amount": -2, "stacks": true},
+		{"type":"", "target": "dexterity", "amount": -2, "stacks": true}
+	],
+	"Frightened": [
+		{"type":"", "target": "attacks", "amount": -2, "stacks": true},
+		{"type":"", "target": "saves", "amount": -2, "stacks": true},
+		{"type":"", "target": "skill checks", "amount": -2, "stacks": true},
+		{"type":"", "target": "ability checks", "amount": -2, "stacks": true}
+	],
+	"Shaken": [
+		{"type": "", "target": "attacks", "amount": -2, "stacks": true},
+		{"type": "", "target": "saves", "amount": -2, "stacks": true},
+		{"type": "", "target": "skill checks", "amount": -2, "stacks": true},
+		{"type": "", "target": "ability checks", "amount": -2, "stacks": true}
+	],
+	"Sickened": [
+		{"type":"", "target": "attacks", "amount": -2, "stacks": true},
+		{"type":"", "target": "weapon damage", "amount": -2, "stacks": true},
+		{"type":"", "target": "saves", "amount": -2, "stacks": true},
+		{"type":"", "target": "skill checks", "amount": -2, "stacks": true},
+		{"type":"", "target": "ability checks", "amount": -2, "stacks": true}
+	]
+}

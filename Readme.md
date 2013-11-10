@@ -33,7 +33,7 @@ The most useful function for the end user will be the `showAllBonuses` function,
 returns an array of all the targets formatted with their calculated bonuses in typical
 Pathfinder format. See the `examples` directory for... ummm.. examples.
 
-You will also find the `importAllBuffs()` function which takes an object containing
+You will also find the `applyFromSources()` function which takes an object containing
 keys of the different sources of buffs along with all the buffs they provide, then
 imports them all into the current workspace.
 
