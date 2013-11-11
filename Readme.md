@@ -3,7 +3,7 @@ Buff Tracker
 Usage:
 
     // Show off the new character stuff
-    var buff = require('../index')()
+    var buff = require('bufftracker')()
     
     // A character
     var PC1 = {id: "Lin O'Leum", type: 'PC'}
@@ -62,10 +62,7 @@ them as a +2 to saves, +3 to save vs. fear.
 ToDo
 ----
 
-First, would be useful to have a way to add all the bonuses for a single source at once,
-and store them so they can be turned on and off easily.
-
-Then, EVEN MORE COOL STUFF.
+EVEN MORE COOL STUFF.
 
 Contact
 -------
