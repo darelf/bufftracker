@@ -9,4 +9,4 @@ var sources = JSON.parse(fs.readFileSync('conditions.json', {encoding: 'utf-8'})
 var currentConditions = {'Shaken': sources['Shaken'], 'Entangled': sources['Entangled']}
 buff.applyFromSources( currentConditions )
 
-console.log( buff.showAllBonuses().join('\n') )
+console.log( buff.showBonuses().join('\n') )

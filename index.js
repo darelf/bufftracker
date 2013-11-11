@@ -42,11 +42,58 @@ BuffTracker.prototype.deleteBuffsBySource = function(source) {
   })
 }
 
-BuffTracker.prototype.getBonus = function(target) {
+BuffTracker.prototype.addCharacter = function(person) {
+  var self = this
+  self.doc.add(person)
+}
+
+BuffTracker.prototype.applyBuffToCharacter = function(buffid, personid) {
+  var self = this
+  var b = self.doc.get(buffid)
+  var l = b.get('applies')
+  if (l) { l.push(personid) } else { l = [personid] }
+  b.set('applies', l)
+}
+
+BuffTracker.prototype.removeBuffFromCharacter = function(buffid, personid) {
+  var self = this
+  var b = self.doc.get(buffid)
+  var l = b.get('applies')
+  var idx = l.indexOf(personid)
+  if (idx > -1) {
+    l.splice(idx,1)
+    b.set('applies', l)
+  }
+}
+
+BuffTracker.prototype.applySourceToCharacter = function(source, personid) {
+  var self = this
+  self.doc.createSet('source', source).each(function(v){
+    self.applyBuffToCharacter(v.id, personid)
+  })
+}
+
+BuffTracker.prototype.removeSourceFromCharacter = function(source, personid) {
+  var self = this
+  self.doc.createSet('source', source).each(function(v){
+    self.removeBuffFromCharacter(v.id, personid)
+  })  
+}
+
+BuffTracker.prototype.getTargetForCharacter = function(target, personid) {
+  var self = this
+  return self.doc.createSet(function(state) {
+    return (state.target === target && state.applies && (state.applies.indexOf(personid) > -1))
+  })
+}
+
+BuffTracker.prototype.getBonus = function(target, personid) {
   var self = this
   var total = 0
   var cum = {}
-  self.doc.createSet('target', target).each(function(v) {
+  var set = []
+  if (personid) { set = self.getTargetForCharacter(target, personid) } else { set = self.doc.createSet('target', target) }
+  set.each(function(v) {
     if (v.get('stacks')) {
       total += v.get('amount')
     } else {
@@ -66,19 +113,19 @@ BuffTracker.prototype.getTargetList = function() {
   var targets = []
   for (var r in self.doc.rows) {
     var t = self.doc.get(r).get('target')
-    if (targets.indexOf(t) < 0) targets.push(t)
+    if (t && targets.indexOf(t) < 0) targets.push(t)
   }
   return targets
 }
 
-BuffTracker.prototype.showAllBonuses = function() {
+BuffTracker.prototype.showBonuses = function(personid) {
   var self = this
   var arr = []
   var targets = self.getTargetList()
-  targets.forEach(function(v) {
-    var b = self.getBonus(v)
+  targets.forEach(function(t) {
+    var b = self.getBonus(t, personid)
     if (b !== 0)
-      arr.push(numeral(self.getBonus(v)).format('+0') + ' ' + v)
+      arr.push(numeral(b).format('+0') + ' ' + t)
   })
   return arr
 }

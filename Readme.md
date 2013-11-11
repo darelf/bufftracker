@@ -1,25 +1,30 @@
 Buff Tracker
 ============
-Lots of work left to do.
-
 Usage:
 
-    var buff = require('bufftracker')()
-    var a = {source:'Bless', type:'Morale', target: 'tohit', amount:1, stacks: false}
-    var b = {source:'Divine Favor', type:'Luck', target: 'tohit', amount:2, stacks: false}
-    var e = {source:'Careful Teamwork', type:'Morale', target:'tohit', amount:2, stacks: false}
+    // Show off the new character stuff
+    var buff = require('../index')()
     
-    var c = {source:'Dodge Feat', type:'Dodge', target: 'ac', amount: 1, stacks: true}
-    var d = {source:'Haste', type: 'Dodge', target: 'ac', amount:1, stacks: true}
+    // A character
+    var PC1 = {id: "Lin O'Leum", type: 'PC'}
+    buff.addCharacter(PC1)
     
-    buff.addBuff(a)
-    buff.addBuff(b)
-    buff.addBuff(c)
-    buff.addBuff(d)
-    buff.addBuff(e)
-    
-    console.log("AC bonus: " + buff.getBonus('ac'))
-    console.log("To Hit Bonus: " + buff.getBonus('tohit'))
+    // A couple of sources
+    var sources = {
+        "Bless": [
+          {"type": "Morale", "target": "attacks", "amount": 1, "stacks": false},
+          {"type": "Morale", "target": "saves vs. fear", "amount": 1, "stacks": false}
+        ],
+        "Divine Favor": [
+          {"type": "Luck", "target": "attacks", "amount": 1, "stacks": false},
+          {"type": "Luck", "target": "weapon damage", "amount": 1, "stacks": false}
+        ]
+    }
+    // Import the sources
+    buff.applyFromSources(sources)
+
+    // Apply one of the sources
+    buff.applySourceToCharacter( 'Bless', "Lin O'Leum" )
   
 So, yeah. Keep track of those pesky bonuses during a game, and thanks to the magic of
 CRDT (and dominictarr) everyone gets updated.
@@ -29,13 +34,30 @@ Doc instances and off you go. Just pipe() everything and go "Woooooo!!!" or some
 
 Showing All Bonuses
 -------------------
-The most useful function for the end user will be the `showAllBonuses` function, which
+The most useful function for the end user will be the `showBonuses()` function, which
 returns an array of all the targets formatted with their calculated bonuses in typical
 Pathfinder format. See the `examples` directory for... ummm.. examples.
 
 You will also find the `applyFromSources()` function which takes an object containing
 keys of the different sources of buffs along with all the buffs they provide, then
 imports them all into the current workspace.
+
+Characters can be added and removed, and sources of bonuses can be applied to them
+or removed from them. Removing a source will obviously remove their attachment to that
+source as well.
+
+Why Don't You...
+----------------
+As you might imagine, the BuffTracker is very data oriented.
+
+It may be good to note here that it doesn't try to decide what applys. The important 
+thing is to correctly craft the targets to give the player/GM information on when to
+apply whatever bonuses are currently in effect. The idea is not to automate the gaming
+but serve as an informational tool for the gaming.
+
+One upcoming addition is to combine similar effects. That is, if you have a
++2 resistance bonus to saves and a +1 to save vs. fear, then it should correctly combine
+them as a +2 to saves, +3 to save vs. fear.
 
 ToDo
 ----

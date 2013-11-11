@@ -1,22 +1,22 @@
 {
 	"Bless": [
-	  {"type": "Morale", "target": "attack", "amount": 1, "stacks": false},
-	  {"type": "Morale", "target": "save vs. fear", "amount": 1, "stacks": false}
+	  {"type": "Morale", "target": "attacks", "amount": 1, "stacks": false},
+	  {"type": "Morale", "target": "saves vs. fear", "amount": 1, "stacks": false}
 	],
 	"Divine Favor": [
-    {"type": "Luck", "target": "attack", "amount": 1, "stacks": false},
+    {"type": "Luck", "target": "attacks", "amount": 1, "stacks": false},
     {"type": "Luck", "target": "weapon damage", "amount": 1, "stacks": false}
 	],
 	"Good Hope": [
-	  {"type": "Morale", "target": "save", "amount": 2, "stacks": false},
-	  {"type": "Morale", "target": "attack", "amount": 2, "stacks": false},
-	  {"type": "Morale", "target": "ability check", "amount": 2, "stacks": false},
+	  {"type": "Morale", "target": "saves", "amount": 2, "stacks": false},
+	  {"type": "Morale", "target": "attacks", "amount": 2, "stacks": false},
+	  {"type": "Morale", "target": "ability checks", "amount": 2, "stacks": false},
 	  {"type": "Morale", "target": "weapon damage", "amount": 2, "stacks": false}
 	],
 	"Shaken": [
-		{"type": "", "target": "attack", "amount": -2, "stacks": true},
-		{"type": "", "target": "save", "amount": -2, "stacks": true},
-		{"type": "", "target": "skill check", "amount": -2, "stacks": true},
-		{"type": "", "target": "ability check", "amount": -2, "stacks": true}
+		{"type": "", "target": "attacks", "amount": -2, "stacks": true},
+		{"type": "", "target": "saves", "amount": -2, "stacks": true},
+		{"type": "", "target": "skill checks", "amount": -2, "stacks": true},
+		{"type": "", "target": "ability checks", "amount": -2, "stacks": true}
 	]
 }
