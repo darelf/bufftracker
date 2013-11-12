@@ -2,6 +2,7 @@
   "name": "bufftracker",
   "version": "0.2.1",
   "description": "Track and calculate so-called 'buffs' in Pathfinder (and other 3.5 games)",
+  "keywords": ["pathfinder","rpg","gaming"],
   "author": "Darel Finkbeiner <darelf@me.com>",
   "license": "MIT",
   "dependencies": {
