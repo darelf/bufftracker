@@ -93,6 +93,6 @@ document.getElementById('buffremovebtn').addEventListener('click', function() {
   updatePCInfo()
 })
 
-//updatePCList()
-//updateSourceList()
-//updatePCInfo()
+updatePCList()
+updateSourceList()
+updatePCInfo()
