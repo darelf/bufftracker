@@ -36,3 +36,8 @@ buff.removeSourceFromCharacter( 'Bless', "Lin O'Leum" )
 console.log( "Now Removing Bless...")
 console.log( "Bonuses in effect for Lin O'Leum")
 console.log( buff.showBonuses("Lin O'Leum").join('\n') )
+
+var s = buff.doc.createSet(function(state) { return (state.source) })
+s.on('changes', console.log)
+buff.applyFromSources( { "Fake": [ {"type": "Fake", "target": "Fake", "amount": 1, "stacks": false} ] } )
+buff.applySourceToCharacter( 'Bless', "Lin O'Leum" )

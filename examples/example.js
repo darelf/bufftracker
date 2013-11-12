@@ -10,3 +10,4 @@ buff.applyFromSources( sources )
 
 // Yay, CRDT!
 console.log( buff.showBonuses().join('\n') )
+

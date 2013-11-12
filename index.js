@@ -47,11 +47,19 @@ BuffTracker.prototype.addCharacter = function(person) {
   self.doc.add(person)
 }
 
+BuffTracker.prototype.removeCharacter = function(personid) {
+  var self = this
+  self.removeAllFromCharacter(personid)
+  self.doc.rm(personid)
+}
+
 BuffTracker.prototype.applyBuffToCharacter = function(buffid, personid) {
   var self = this
   var b = self.doc.get(buffid)
   var l = b.get('applies')
-  if (l) { l.push(personid) } else { l = [personid] }
+  if (l) {
+    if (l.indexOf(personid) < 0) l.push(personid)
+  } else { l = [personid] }
   b.set('applies', l)
 }
 
@@ -73,11 +81,35 @@ BuffTracker.prototype.applySourceToCharacter = function(source, personid) {
   })
 }
 
+BuffTracker.prototype.getAllSourceOnCharacter = function(personid) {
+  var self = this
+  var arr = []
+  self.doc.createSet(function(state) { return (state.source && state.applies && (state.applies.indexOf(personid) > -1)) }).each(function(v) {
+    if ( arr.indexOf(v.get('source')) < 0 )
+      arr.push(v.get('source'))
+  })
+  return arr
+}
+
 BuffTracker.prototype.removeSourceFromCharacter = function(source, personid) {
   var self = this
   self.doc.createSet('source', source).each(function(v){
     self.removeBuffFromCharacter(v.id, personid)
   })  
+}
+
+BuffTracker.prototype.removeAllFromCharacter = function(personid) {
+  var self = this
+  for (var v in self.doc.rows) {
+    if ( v.get('source') ) {
+      var l = v.get('applies')
+      var idx = l.indexOf(personid)
+      if (idx > -1) {
+        l.splice(idx,1)
+        v.set('applies', l)
+      }
+    }
+  }
 }
 
 BuffTracker.prototype.getTargetForCharacter = function(target, personid) {
@@ -116,6 +148,16 @@ BuffTracker.prototype.getTargetList = function() {
     if (t && targets.indexOf(t) < 0) targets.push(t)
   }
   return targets
+}
+
+BuffTracker.prototype.getSourceList = function() {
+  var self = this
+  var sources = []
+  for (var r in self.doc.rows) {
+    var s = self.doc.get(r).get('source')
+    if (s && sources.indexOf(s) < 0) sources.push(s)
+  }
+  return sources
 }
 
 BuffTracker.prototype.showBonuses = function(personid) {
