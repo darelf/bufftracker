@@ -94,9 +94,9 @@ document.getElementById('buffremovebtn').addEventListener('click', function() {
   updatePCInfo()
 })
 
-//updatePCList()
-//updateSourceList()
-//updatePCInfo()
+updatePCList()
+updateSourceList()
+updatePCInfo()
 
 },{"../index":2,"event-stream":15,"moment":24,"reconnect":41,"shoe":43,"through":45}],2:[function(require,module,exports){
 var numeral = require('numeral')
