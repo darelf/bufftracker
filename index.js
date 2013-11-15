@@ -35,6 +35,19 @@ BuffTracker.prototype.addBuff = function(buff) {
                source: buff.source, type: buff.type, amount: buff.amount, target: buff.target, stacks: buff.stacks})
 }
 
+BuffTracker.prototype.updateBuff = function(buff) {
+  var self = this
+  var r = self.doc.get([buff.source,buff.type,buff.target].join('|'))
+  if (r) {
+    r.set('type', buff.type)
+    r.set('target', buff.target)
+    r.set('amount', buff.amount)
+    r.set('stacks', buff.stacks)
+  } else {
+    self.doc.addBuff(buff)
+  }
+}
+
 BuffTracker.prototype.deleteBuffsBySource = function(source) {
   var self = this
   self.doc.createSet('source', source).each(function(v) {
