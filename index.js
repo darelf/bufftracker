@@ -35,6 +35,11 @@ BuffTracker.prototype.addBuff = function(buff) {
                source: buff.source, type: buff.type, amount: buff.amount, target: buff.target, stacks: buff.stacks})
 }
 
+BuffTracker.prototype.deleteBuff = function(buffid) {
+  var self = this
+  self.doc.rm(buffid)
+}
+
 BuffTracker.prototype.updateBuff = function(buff) {
   var self = this
   var r = self.doc.get(buff.id)
