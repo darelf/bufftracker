@@ -52,6 +52,23 @@ BuffTracker.prototype.updateBuff = function(buff) {
   } else {
     self.addBuff(buff)
   }
+  if (buff.source) self.updateSource(buff.source)
+}
+
+BuffTracker.prototype.updateSource = function(source) {
+  var self = this
+  var persons = []
+  self.doc.createSet('source', source).each(function(v) {
+    var l = v.get('applies')
+    if (l) {
+      l.forEach(function(p) {
+        if (persons.indexOf(p) < 0) persons.push(p)
+      })
+    }
+  })
+  persons.forEach(function(v) {
+    self.applySourceToCharacter(source, v)
+  })
 }
 
 BuffTracker.prototype.deleteBuffsBySource = function(source) {
@@ -75,6 +92,7 @@ BuffTracker.prototype.removeCharacter = function(personid) {
 BuffTracker.prototype.applyBuffToCharacter = function(buffid, personid) {
   var self = this
   var b = self.doc.get(buffid)
+  if (!b) return
   var l = b.get('applies')
   if (l) {
     if (l.indexOf(personid) < 0) l.push(personid)
@@ -85,7 +103,9 @@ BuffTracker.prototype.applyBuffToCharacter = function(buffid, personid) {
 BuffTracker.prototype.removeBuffFromCharacter = function(buffid, personid) {
   var self = this
   var b = self.doc.get(buffid)
+  if (!b) return
   var l = b.get('applies')
+  if (!l) return
   var idx = l.indexOf(personid)
   if (idx > -1) {
     l.splice(idx,1)
