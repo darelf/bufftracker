@@ -37,14 +37,15 @@ BuffTracker.prototype.addBuff = function(buff) {
 
 BuffTracker.prototype.updateBuff = function(buff) {
   var self = this
-  var r = self.doc.get([buff.source,buff.type,buff.target].join('|'))
-  if (r) {
+  var r = self.doc.get(buff.id)
+  if (r && r.get('source')) {
+    r.set('source', buff.source)
     r.set('type', buff.type)
     r.set('target', buff.target)
     r.set('amount', buff.amount)
     r.set('stacks', buff.stacks)
   } else {
-    self.doc.addBuff(buff)
+    self.addBuff(buff)
   }
 }
 
