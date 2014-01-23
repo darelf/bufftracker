@@ -140,12 +140,13 @@ BuffTracker.prototype.removeSourceFromCharacter = function(source, personid) {
 BuffTracker.prototype.removeAllFromCharacter = function(personid) {
   var self = this
   for (var v in self.doc.rows) {
-    if ( v.get('source') ) {
-      var l = v.get('applies')
+    var item = self.doc.get(item)
+    if ( item.get('source') ) {
+      var l = item.get('applies')
       var idx = l.indexOf(personid)
       if (idx > -1) {
         l.splice(idx,1)
-        v.set('applies', l)
+        item.set('applies', l)
       }
     }
   }
