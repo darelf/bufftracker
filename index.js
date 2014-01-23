@@ -22,17 +22,17 @@ BuffTracker.prototype.applyFromSources = function(data) {
   }
 }
 
-BuffTracker.prototype.createBuff = function(source, type, target, amount, stacks) {
+BuffTracker.prototype.createBuff = function(room, source, type, target, amount, stacks) {
   var self = this
-  var b = {source: source, type: type, target: target, amount: amount, stacks: stacks}
+  var b = {room: room, source: source, type: type, target: target, amount: amount, stacks: stacks}
   this.addBuff(b)
   return b
 }
 
 BuffTracker.prototype.addBuff = function(buff) {
   var self = this
-  self.doc.add({id: [buff.source,buff.type,buff.target].join('|'),
-               source: buff.source, type: buff.type, amount: buff.amount, target: buff.target, stacks: buff.stacks})
+  self.doc.add({id: [buff.room,buff.source,buff.type,buff.target].join('|'),
+               room: buff.room, source: buff.source, type: buff.type, amount: buff.amount, target: buff.target, stacks: buff.stacks})
 }
 
 BuffTracker.prototype.deleteBuff = function(buffid) {
@@ -44,6 +44,7 @@ BuffTracker.prototype.updateBuff = function(buff) {
   var self = this
   var r = self.doc.get(buff.id)
   if (r && r.get('source')) {
+    r.set('room', buff.room)
     r.set('source', buff.source)
     r.set('type', buff.type)
     r.set('target', buff.target)
@@ -52,13 +53,13 @@ BuffTracker.prototype.updateBuff = function(buff) {
   } else {
     self.addBuff(buff)
   }
-  if (buff.source) self.updateSource(buff.source)
+  if (buff.source) self.updateSource(buff.room, buff.source)
 }
 
-BuffTracker.prototype.updateSource = function(source) {
+BuffTracker.prototype.updateSource = function(room, source) {
   var self = this
   var persons = []
-  self.doc.createSet('source', source).each(function(v) {
+  self.doc.createSet(function(state) { return ( (state.source == source) && (state.room == room) ) }).each(function(v) {
     var l = v.get('applies')
     if (l) {
       l.forEach(function(p) {
@@ -71,16 +72,20 @@ BuffTracker.prototype.updateSource = function(source) {
   })
 }
 
-BuffTracker.prototype.deleteBuffsBySource = function(source) {
+BuffTracker.prototype.deleteBuffsBySource = function(room, source) {
   var self = this
-  self.doc.createSet('source', source).each(function(v) {
+  self.doc.createSet(function(state) { return ( (state.source == source) && (state.room == room) ) }).each(function(v) {
     self.doc.rm(v.get('id'))
   })
 }
 
 BuffTracker.prototype.addCharacter = function(person) {
   var self = this
-  self.doc.add(person)
+  var exists = false
+  self.doc.createSet('type', 'PC').forEach(function(v) { if (v.id === person.id) exists = true })
+  if (!exists)
+    self.doc.add(person)
+  return !exists
 }
 
 BuffTracker.prototype.removeCharacter = function(personid) {
@@ -115,7 +120,8 @@ BuffTracker.prototype.removeBuffFromCharacter = function(buffid, personid) {
 
 BuffTracker.prototype.applySourceToCharacter = function(source, personid) {
   var self = this
-  self.doc.createSet('source', source).each(function(v){
+  var room = self.doc.get(personid).get('room')
+  self.doc.createSet(function(state) { return ( (state.source == source) && (state.room == room) ) }).each(function(v){
     self.applyBuffToCharacter(v.id, personid)
   })
 }
@@ -132,7 +138,8 @@ BuffTracker.prototype.getAllSourceOnCharacter = function(personid) {
 
 BuffTracker.prototype.removeSourceFromCharacter = function(source, personid) {
   var self = this
-  self.doc.createSet('source', source).each(function(v){
+  var room = self.doc.get(personid).get('room')
+  self.doc.createSet(function(state) { return ( (state.source == source) && (state.room == room) ) }).each(function(v){
     self.removeBuffFromCharacter(v.id, personid)
   })  
 }
