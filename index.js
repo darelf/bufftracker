@@ -17,6 +17,7 @@ BuffTracker.prototype.applyFromSources = function(data) {
     buff.forEach(function(v) {
       var newbuff = v
       newbuff.source = b
+      if (!newbuff.room) newbuff.room = 'default'
       self.addBuff(newbuff)
     })
   }
@@ -205,6 +206,16 @@ BuffTracker.prototype.getSourceList = function() {
     if (s && sources.indexOf(s) < 0) sources.push(s)
   }
   return sources
+}
+
+BuffTracker.prototype.getRoomList = function() {
+  var self = this
+  var rooms = []
+  for (var row in self.doc.rows) {
+    var r = self.doc.get(row).get('room')
+    if (r && rooms.indexOf(r) < 0) rooms.push(r)
+  }
+  return rooms
 }
 
 BuffTracker.prototype.showBonuses = function(personid) {
